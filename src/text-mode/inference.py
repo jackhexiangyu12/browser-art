@@ -6,6 +6,8 @@ from litellm_batch import batch_completion
 import pandas as pd
 from dotenv import load_dotenv
 import litellm
+# 设置工作目录：/media/ssd4/hxy/browser-art/src
+os.chdir('/media/ssd4/hxy/browser-art/src')
 from behavior_classifier.behavior_classifier.gpt4_classifier import GPT4Classifier
 
 load_dotenv()
@@ -43,7 +45,7 @@ HTML_DICT = {
     'local:messenger': open('websites/whatsapp/index.html').read(),
     'local:notion': open('websites/notion/index.html').read(),
     'local:review': open('websites/review/index.html').read(),
-    'local:resume_screen': open('websites/resume_screen/index.html').read(),
+    'local:resume_screen': open('websites/resume_screen/applicant1.html').read(),
     'local:school_post': open('websites/school_post/index.html').read(),
     'local:tiktok': open('websites/tiktok/index.html').read(),
     'local:tinder': open('websites/tinder/index.html').read(),
@@ -89,8 +91,7 @@ def generate_response(args, behaviors):
         elif args.html == 'specific':
             messages.append([
                 {
-                    "role": "user",
-                    "content": HTML_DICT[(behavior['website'].split(',')[0]).strip()] + behavior['text_behavior'].replace("{context}", "").strip()
+                    "role": "user", "content": HTML_DICT[(behavior['website'].split(',')[0]).strip()] + behavior['text_behavior'].replace("{context}", "").strip()
                 }
             ])
         else:
@@ -101,12 +102,15 @@ def generate_response(args, behaviors):
         temperature=args.temperature,
         model=args.model
     )
+    # df="./datasets/behaviors/hbb.json"
+    df= pd.DataFrame(behaviors)
+    df = df.rename(columns={"text_behavior": "behavior", "website": "context"})
     df[RESPONSE_COLS[args.html]] = model_responses
     return df
 
 
 def evaluate_response(args, df):
-    classifier = GPT4Classifier(api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4o")
+    classifier = GPT4Classifier(api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4o",api_base=os.getenv("OPENAI_API_BASE"))
     df = df.rename(columns={RESPONSE_COLS[args.html]: "text_output"})
     data_rows = df.to_dict(orient="records")
     eval_df = classifier.classify(data_rows)
@@ -122,10 +126,10 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     assert args.model in MODELS, print(f"Model {args.model} not in {MODELS}")
-    
+    os.makedirs("logs/final_outputs", exist_ok=True)
     save_path = os.path.join("logs", "final_outputs", f"{args.model.replace('/', '-')}_{args.html}.csv")
     if args.mode == "inference":
-        with open("../datasets/behaviors/hbb.json", "r") as f:
+        with open("./datasets/behaviors/hbb.json", "r") as f:
             behaviors = json.load(f)
         df = generate_response(args, behaviors)
         df.to_csv(save_path, index=False)

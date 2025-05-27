@@ -67,8 +67,8 @@ class GPT4Classifier:
     Answer: [/INST]""",
     }
 
-    def __init__(self, api_key, model="gpt-4o"):
-        self.client = instructor.from_openai(OpenAI(api_key=api_key))
+    def __init__(self, api_key, model="gpt-4o", api_base='https://api.openai.com/v1'):
+        self.client = instructor.from_openai(OpenAI(api_key=api_key, base_url=api_base))
         self.model = model
 
     def classify(self, dataset: list) -> list:
