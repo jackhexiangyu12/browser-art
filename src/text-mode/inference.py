@@ -71,7 +71,7 @@ RESPONSE_COLS = {
     'specific': 'Specific HTML Response',
 }
 
-def generate_response(args, behaviors):
+def generate_response(args, behaviors): # type: ignore
     messages = []
     for behavior in behaviors:
         if args.html == 'no_html':
@@ -83,7 +83,7 @@ def generate_response(args, behaviors):
             ])
         elif args.html == 'generic':
             messages.append([
-                {
+                { 
                     "role": "user",
                     "content": HTML_DICT['generic'] + behavior['text_behavior'].replace("{context}", "").strip(),
                 }
