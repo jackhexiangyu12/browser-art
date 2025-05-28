@@ -1,0 +1,47 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "cwd": "/media/ssd4/hxy/browser-art/src",
+            "name": "Run inference.py with arguments",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "/home/hxy/anaconda3/envs/flash_atten/bin/python",
+            "program": "text-mode/inference.py",
+            "args": [
+                "--mode", "inference",
+                "--model", "gpt-4o",
+                "--html", "no_html",
+           ],
+            "console": "integratedTerminal",
+            "env": {
+                "OPENAI_API_BASE": "https://aizex.top/v1",
+                "OPENAI_API_KEY": "sk-McvT6nGSxzkaeKDwHKdTwdEeo87gqsRs2D3tdTKTmQKIcNBj"
+            }
+        },
+        {
+            "cwd": "/media/ssd4/hxy/browser-art/src",
+            "name": "grading",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "/home/hxy/anaconda3/envs/flash_atten/bin/python",
+            "program": "text-mode/inference.py",
+            "args": [
+                "--mode", "grading",
+                "--model", "gpt-4o",
+                "--html", "no_html",
+            ],
+            "console": "integratedTerminal",
+            "env": {
+                "OPENAI_API_BASE": "https://aizex.top/v1",
+                "OPENAI_API_KEY": "sk-McvT6nGSxzkaeKDwHKdTwdEeo87gqsRs2D3tdTKTmQKIcNBj"
+            }
+        }
+        
+    ]
+
+}

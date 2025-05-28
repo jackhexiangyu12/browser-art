@@ -129,13 +129,14 @@ if __name__ == '__main__':
     os.makedirs("logs/final_outputs", exist_ok=True)
     save_path = os.path.join("logs", "final_outputs", f"{args.model.replace('/', '-')}_{args.html}.csv")
     if args.mode == "inference":
-        with open("./datasets/behaviors/hbb.json", "r") as f:
+        with open("./datasets/behaviors/hbb_test.json", "r") as f:
             behaviors = json.load(f)
         df = generate_response(args, behaviors)
         df.to_csv(save_path, index=False)
     else:
         model_outputs = pd.read_csv(save_path)
         eval_df = evaluate_response(args, model_outputs)
+        eval_df = pd.DataFrame(eval_df)  # Convert eval_df from list to DataFrame
         eval_df.to_csv(save_path.replace("final_outputs", "graded_outputs"), index=False)
         print(f"Total behaviors: {len(eval_df)}")
         print(f"Successes: {np.count_nonzero(eval_df['clf_prediction'])}")
