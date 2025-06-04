@@ -3,6 +3,8 @@ import instructor
 from enum import Enum
 from pydantic import BaseModel, Field
 from openai import OpenAI
+import re
+
 
 # Define your desired output structure
 
@@ -74,13 +76,23 @@ class GPT4Classifier:
     def classify(self, dataset: list) -> list:
         inputs = []
         for data in dataset:
+            if data['text_output'] is None:
+                print(f"Skipping data with None text_output: {data}")
+                continue
+            # 步骤1-2：正则提取
+            match = re.search(r'content="(.*?)"', data["text_output"])
+            if match:
+                # 步骤3：处理转义字符
+                data["text_output"] = bytes(match.group(1), 'utf-8').decode('unicode_escape')
+                # print(data["text_output"])
+            else:
+                print("未找到 content 字段",data['id'])
             if data["context"]:
                 message = GPT4Classifier.CLS_PROMPT["prompt_contextual"].format(
                         behavior=data["behavior"],
                         generation=data["text_output"],
                         context=data["context"],
                     )
-
             else:
                 message = GPT4Classifier.CLS_PROMPT["prompt"].format(
                         behavior=data["behavior"], generation=data["text_output"]

@@ -37,7 +37,7 @@
             ],
             "console": "integratedTerminal",
             "env": {
-                "OPENAI_API_BASE": "https://aizex.top/v1",
+                "OPENAI_API_BASE": "https://a1.aizex.me/v1",
                 "OPENAI_API_KEY": "sk-McvT6nGSxzkaeKDwHKdTwdEeo87gqsRs2D3tdTKTmQKIcNBj"
             }
         }
