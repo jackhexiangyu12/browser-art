@@ -7,7 +7,7 @@
         
         {
             "cwd": "/media/ssd4/hxy/browser-art/src",
-            "name": "Run inference.py with arguments",
+            "name": "no_html",
             "type": "debugpy",
             "request": "launch",
             "python": "/home/hxy/anaconda3/envs/flash_atten/bin/python",
@@ -40,7 +40,41 @@
                 "OPENAI_API_BASE": "https://a1.aizex.me/v1",
                 "OPENAI_API_KEY": "sk-McvT6nGSxzkaeKDwHKdTwdEeo87gqsRs2D3tdTKTmQKIcNBj"
             }
-        }
+        },{
+            "cwd": "/media/ssd4/hxy/browser-art/src",
+            "name": "generic",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "/home/hxy/anaconda3/envs/flash_atten/bin/python",
+            "program": "text-mode/inference.py",
+            "args": [
+                "--mode", "inference",
+                "--model", "gpt-4o",
+                "--html", "generic",
+           ],
+            "console": "integratedTerminal",
+            "env": {
+                "OPENAI_API_BASE": "https://aizex.top/v1",
+                "OPENAI_API_KEY": "sk-McvT6nGSxzkaeKDwHKdTwdEeo87gqsRs2D3tdTKTmQKIcNBj"
+            }
+        },{
+            "cwd": "/media/ssd4/hxy/browser-art/src",
+            "name": "generic_grading",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "/home/hxy/anaconda3/envs/flash_atten/bin/python",
+            "program": "text-mode/inference.py",
+            "args": [
+                "--mode", "grading",
+                "--model", "gpt-4o",
+                "--html", "generic",
+           ],
+            "console": "integratedTerminal",
+            "env": {
+                "OPENAI_API_BASE": "https://aizex.top/v1",
+                "OPENAI_API_KEY": "sk-McvT6nGSxzkaeKDwHKdTwdEeo87gqsRs2D3tdTKTmQKIcNBj"
+            }
+        },
         
     ]
 
